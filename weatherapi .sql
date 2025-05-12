@@ -14,7 +14,7 @@ TYPE = EXTERNAL_STAGE
 STORAGE_PROVIDER = S3
 ENABLED = TRUE  
 STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::111122223333:role/fake-placeholder-role'
-STORAGE_ALLOWED_LOCATIONS = ('s3://weatherdatapro/');            # Allow access only to `s3://weatherdyn/` bucket
+STORAGE_ALLOWED_LOCATIONS = ('s3://weatherdatapro/');            # Allow access only to `s3://weatherdatapro/` bucket
 
 DESC INTEGRATION s3_weather;                                # Describe the details and security credentials of `s3_weather` 
 
