@@ -18,28 +18,39 @@ This project collects real-time weather data from OpenWeather API, stores it in 
 
 🔁 Step-by-Step Process
 
-🌦 OpenWeather API            -> Provides weather data.
+## Data Ingestion Flow
 
-🔗 EventBridge               -> Detects when new data is available and triggers the flow.
+🌤 OpenWeather API → Periodically fetches weather data.
 
-🧠 Lambda (1st)              -> Fetches and processes the weather data.
+⏰ EventBridge → Triggers Lambda when new data is available.
 
-🪣 S3 + 📘 DynamoDB          -> Data is saved in S3 for storage and in DynamoDB for structured access.
+⚡ Lambda Function → Parses data and writes to dynamodb and s3 bucket.
 
-📊 DynamoDB Stream           -> When DynamoDB is updated, it triggers another Lambda function.
+## Data Processing
 
-📥 Lambda (2nd) → S3         -> This Lambda stores transformed data into S3 again.
+🌀 DynamoDB Stream → Detects table changes → Triggers Lambda.
 
-🔑 IAM & storage Integration -> Provides secure access between S3 and Snowflake using roles.
+⚡ Lambda (2nd) → Enriches/transforms data → Writes back to S3.
 
-📩 SQS                       -> Notifies Snowflake when new data is in S3.
+📤  S3 to SQS → Sends alerts to SQS for new files.
 
-📤 External Stage + Snowpipe -> Snowflake reads the file from S3 via the external stage, and Snowpipe loads it automatically.
+## Secure Data Integration
 
-❄️ SnowflakeDB               -> Data is stored in a Snowflake database.
+🔐 IAM Roles → Grants secure access to S3 & DynamoDB.
 
-📈 Power BI                  -> Uses Snowflake data to create dashboards and visual reports
+🤝 Storage Integration → Trusted link between AWS & Snowflake.
 
+## Snowflake Integration
+
+❄️ External Stage → Snowflake reads directly from S3.
+
+📥 Snowpipe → Auto-ingests data via SQS notifications.
+
+## Data Visualization
+
+❄️ SnowflakeDB → Stores processed, query-ready data.
+
+📊 Power BI → Pulls data from Snowflake → Generates dashboards & reports.
 
 - `first lambda.py`: Python Lambda code to fetch weather data
 - `weather_pipeline_queries.sql`: Data ingestion & transformation queries
