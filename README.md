@@ -18,51 +18,29 @@ This project collects real-time weather data from OpenWeather API, stores it in 
 
 🔁 Step-by-Step Process
 
-🌦 OpenWeather API
+🌦 OpenWeather API            -> Provides weather data.
 
-Provides weather data.
+🔗 EventBridge               -> Detects when new data is available and triggers the flow.
 
-🔗 EventBridge
+🧠 Lambda (1st)              -> Fetches and processes the weather data.
 
-Detects when new data is available and triggers the flow.
+🪣 S3 + 📘 DynamoDB          -> Data is saved in S3 for storage and in DynamoDB for structured access.
 
-🧠 Lambda (1st)
+📊 DynamoDB Stream           -> When DynamoDB is updated, it triggers another Lambda function.
 
-Fetches and processes the weather data.
+📥 Lambda (2nd) → S3         -> This Lambda stores transformed data into S3 again.
 
-🪣 S3 + 📘 DynamoDB
+🔑 IAM & storage Integration -> Provides secure access between S3 and Snowflake using roles.
 
-Data is saved in S3 for storage and in DynamoDB for structured access.
+📩 SQS                       -> Notifies Snowflake when new data is in S3.
 
-📊 DynamoDB Stream → Lambda (2nd)
+📤 External Stage + Snowpipe -> Snowflake reads the file from S3 via the external stage, and Snowpipe loads it automatically.
 
-When DynamoDB is updated, it triggers another Lambda function.
+❄️ SnowflakeDB               -> Data is stored in a Snowflake database.
 
-📥 Lambda (2nd) → S3
-
-This Lambda stores transformed data into S3 again.
-
-🔑 IAM + Integration Gears
-
-Provides secure access between S3 and Snowflake using roles.
-
-📩 SQS
-
-Notifies Snowflake when new data is in S3.
-
-📤 External Stage + Snowpipe
-
-Snowflake reads the file from S3 via the external stage, and Snowpipe loads it automatically.
-
-❄️ SnowflakeDB
-
-Data is stored in a Snowflake database.
-
-📈 Power BI
-
-Uses Snowflake data to create dashboards and visual reports
+📈 Power BI                  -> Uses Snowflake data to create dashboards and visual reports
 
 
-- `lambda_function.py`: Python Lambda code to fetch weather data
+- `first lambda.py`: Python Lambda code to fetch weather data
 - `weather_pipeline_queries.sql`: Data ingestion & transformation queries
 - `Taskpowerbi.pbix`: Power BI dashboard file for visualizing weather data
