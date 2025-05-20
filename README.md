@@ -18,27 +18,49 @@ This project collects real-time weather data from OpenWeather API, stores it in 
 
 🔁 Step-by-Step Process
 
-🌦 OpenWeather API    -> Fetches real-time weather data for multiple cities.
+🌦 OpenWeather API
 
-🔗 EventBridge       -> Detects when new data is available and triggers the flow.
+Provides weather data.
 
-🧠 Lambda (1st)      -> Fetches and processes the weather data.
+🔗 EventBridge
 
-🪣 S3 + 📘 DynamoDB -> Data is saved in S3 for storage and in DynamoDB for structured access.
+Detects when new data is available and triggers the flow.
 
-📊 DynamoDB Stream   -> Lambda (2nd) When DynamoDB is updated, it triggers another Lambda function.
+🧠 Lambda (1st)
 
-📥 Lambda (2nd) → S3  -> This Lambda stores transformed data into S3 again.
+Fetches and processes the weather data.
 
-🔑 IAM + Integration Gears -> Provides secure access between S3 and Snowflake using roles.
+🪣 S3 + 📘 DynamoDB
 
-📩 SQS              -> Notifies Snowflake when new data is in S3.
+Data is saved in S3 for storage and in DynamoDB for structured access.
 
-📤 External Stage + Snowpipe  -> Snowflake reads the file from S3 via the external stage, and Snowpipe loads it automatically.
+📊 DynamoDB Stream → Lambda (2nd)
 
-❄️ SnowflakeDB    ->  Data is stored in a Snowflake database.
+When DynamoDB is updated, it triggers another Lambda function.
 
-📈 Power BI  -> Uses Snowflake data to create dashboards and visual reports.
+📥 Lambda (2nd) → S3
+
+This Lambda stores transformed data into S3 again.
+
+🔑 IAM + Integration Gears
+
+Provides secure access between S3 and Snowflake using roles.
+
+📩 SQS
+
+Notifies Snowflake when new data is in S3.
+
+📤 External Stage + Snowpipe
+
+Snowflake reads the file from S3 via the external stage, and Snowpipe loads it automatically.
+
+❄️ SnowflakeDB
+
+Data is stored in a Snowflake database.
+
+📈 Power BI
+
+Uses Snowflake data to create dashboards and visual reports
 
 
 - `lambda_function.py`: Python Lambda code to fetch weather data
