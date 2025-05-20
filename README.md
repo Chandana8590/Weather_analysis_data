@@ -19,6 +19,7 @@ This project collects real-time weather data from OpenWeather API, stores it in 
 🔁 Step-by-Step Process
 
 🌦 OpenWeather API    -> Fetches real-time weather data for multiple cities.
+
 🔗 EventBridge       -> Detects when new data is available and triggers the flow.
 🧠 Lambda (1st)      -> Fetches and processes the weather data.
 🪣 S3 + 📘 DynamoDB -> Data is saved in S3 for storage and in DynamoDB for structured access.
